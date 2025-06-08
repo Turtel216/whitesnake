@@ -1,44 +1,118 @@
-# whitesnake
+# Whitesnake
 
-FIXME: description
+> [!CAUTION]
+> The application is still in early development. Many features are not tested or yet to be implemented.
 
-## Installation
+**Whitesnake** is a functional, immutable database implemented in [Clojure](https://clojure.org/). It emphasizes simplicity, composability, and a pure functional approach to data storage and querying.
 
-Download from http://example.com/FIXME.
+Whitesnake is currently under active development and is built with [Leiningen](https://leiningen.org/) as the build and dependency management tool.
+
+---
+
+## Features
+
+- 🧠 **Purely Functional Core** — No mutations, side effects, or global state.
+- 🔁 **Immutable Data** — Data is versioned and persistent, enabling rollback, history inspection, and easy concurrency.
+- 🔎 **Query Engine** — Expressive and composable query system inspired by datalog.
+- ⚙️ **Clojure-native** — Designed to feel idiomatic and work seamlessly with the Clojure ecosystem.
+- 🧪 **Testable** — Every part of the system is designed to be unit-testable and side-effect-free.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Clojure](https://clojure.org/guides/getting_started)
+- [Leiningen](https://leiningen.org/)
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Turtel216/whitesnake.git
+cd whitesnake
+````
+
+Run the REPL:
+
+```bash
+lein repl
+```
+
+---
 
 ## Usage
 
-FIXME: explanation
+Here’s a quick taste of how to define a database, insert data, and run a query:
 
-    $ java -jar whitesnake-0.1.0-standalone.jar [args]
+```clojure
+(ns example.core
+  (:require [whitesnake.core :as ws]))
 
-## Options
+(def db (ws/empty-db))
 
-FIXME: listing of options this app accepts.
+(def db2 (-> db
+             (ws/insert {:id 1 :name "Alice" :role :engineer})
+             (ws/insert {:id 2 :name "Bob" :role :designer})))
 
-## Examples
+(ws/query db2 {:where [[:?e :name "Alice"] [:?e :role :engineer]]})
+```
 
-...
+---
 
-### Bugs
+## Project Structure
 
-...
+* `src/whitesnake/core.clj` – Main database implementation.
+* `test/whitesnake/core_test.clj` – Unit tests.
+* `project.clj` – Leiningen project configuration.
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+---
+
+## Development
+
+Run tests:
+
+```bash
+lein test
+```
+
+Format code (if using cljfmt or similar tools):
+
+```bash
+lein cljfmt fix
+```
+
+---
+
+## Roadmap
+
+* [ ] Transaction logs and time-travel queries
+* [ ] Query optimizer
+* [ ] More expressive query language
+* [ ] CLI or web REPL interface
+* [ ] Persistence layer (disk, remote storage)
+
+---
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to check [issues](https://github.com/Turtel216/whitesnake/issues) and submit a PR.
+
+---
 
 ## License
 
-Copyright © 2025 FIXME
+MIT License. See [LICENSE](LICENSE) for details.
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+---
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+## Acknowledgments
+
+Inspired by:
+
+* [Datascript](https://github.com/tonsky/datascript)
+* [Datomic](https://www.datomic.com/)
+* The Clojure philosophy and ecosystem
